@@ -51,11 +51,11 @@ function include(filename) {
 // ========================================
 
 const CONFIG = {
-  SPREADSHEET_ID: "1VHWoJ3UyBTUWLXVRBZFu4iURzRZY_H3HDQRRJfqfq8k", // ⚠️ ใส่ Spreadsheet ID ของคุณที่นี่
+  SPREADSHEET_ID: "1n429tlJiazGU8I1WlnQyU4MT9ELrxfSUw2s1LTywsKg", // ⚠️ ใส่ Spreadsheet ID ของคุณที่นี่
 
   // Drive Folder IDs
-  BOOKING_SLIPS_FOLDER_ID: "1lxu8dGE5wBkphXRJtYGU84w41pIxRaby", // Folder สำหรับสลิปการจอง
-  REFUND_SLIPS_FOLDER_ID: "12VmXp8TrEWFS2WiOW1S0ng4_qFSQv9PA", // Folder สำหรับสลิปการคืนเงิน
+  BOOKING_SLIPS_FOLDER_ID: "1aK3dex_5PJhc3nTweparFLN-jL2NiRh8", // Folder สำหรับสลิปการจอง
+  REFUND_SLIPS_FOLDER_ID: "1bH39qtucSVM9Q5-49pgL5762PIovHbBm", // Folder สำหรับสลิปการคืนเงิน
 
   // Sheet Names
   SHEETS: {
@@ -3348,6 +3348,8 @@ function getDailySalesReport(sessionToken, startDate, endDate) {
       }
 
       const location = row[3] || "ไม่ระบุ"; // Column D: Location
+      const adults = Number(row[5]) || 0; // Column F: Adult
+      const children = Number(row[6]) || 0; // Column G: Child
       const totalAmount = Number(row[19]) || 0; // Column T: Total Amount
 
       // Filter: Only Completed status
@@ -3363,11 +3365,15 @@ function getDailySalesReport(sessionToken, startDate, endDate) {
           location: location,
           bookingCount: 0,
           totalSales: 0,
+          totalAdults: 0,
+          totalChildren: 0,
         };
       }
 
       locationSales[location].bookingCount++;
       locationSales[location].totalSales += totalAmount;
+      locationSales[location].totalAdults += adults;
+      locationSales[location].totalChildren += children;
     }
 
     // Convert to array and sort by total sales (descending)
